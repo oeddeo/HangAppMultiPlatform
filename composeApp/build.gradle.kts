@@ -66,12 +66,18 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
             implementation(libs.navigation.compose)
+            implementation(compose.components.resources)
 
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
     }
+}
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "me.sample.library.resources"
+    generateResClass = always
 }
 
 android {

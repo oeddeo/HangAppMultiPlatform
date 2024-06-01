@@ -8,24 +8,20 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.ui.unit.dp
+import components.NavigationIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecondScreen(
     onBackClick: () -> Unit = {},
     onNextClick: (String) -> Unit = {},
+    answer: String,
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Second Screen") },
+                title = { Text(answer) },
                 navigationIcon = { NavigationIcon(onClick = { onBackClick() }) }
             )
         }
@@ -39,16 +35,4 @@ fun SecondScreen(
             Text("Nothing to see")
         }
     }
-}
-
-
-@Composable
-fun NavigationIcon(onClick: () -> Unit) {
-    Icon(
-        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-        contentDescription = "Arrow Back",
-        modifier = Modifier
-            .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp)
-    )
 }
