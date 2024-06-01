@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import screens.SecondScreen
 import screens.StartScreen
 
@@ -21,12 +22,16 @@ fun SetupNavGraph(
         modifier = Modifier.padding()
     ) {
         composable(route = Screens.Start.route) {
-            StartScreen(
-                onNextClick = {navController.navigate(Screens.Second.route)}
-            )
+            StartScreen { answer -> navController.navigate("${Screens.Second.route}/$answer") }
         }
-        composable(route = Screens.Second.route) {
-            SecondScreen(navController::popBackStack)
+        composable(
+            route = "${Screens.Second.route}/{answer}",
+            arguments = listOf(navArgument("answer") {})
+            ) {
+            val answer = it.arguments?.getString("answer") ?: ""
+            SecondScreen(navController::popBackStack, answer = answer)
         }
-    }
+
+        }
+
 }
