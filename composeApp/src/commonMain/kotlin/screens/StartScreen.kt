@@ -22,7 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import data.koinViewModel
 import me.sample.library.resources.Res
+import me.sample.library.resources.go_to
 import me.sample.library.resources.select_location
 import me.sample.library.resources.start_screen
 import org.jetbrains.compose.resources.painterResource
@@ -33,7 +35,7 @@ import viewModels.StartViewModel
 @Composable
 fun StartScreen(onNextClick: (String) -> Unit = {}) {
 
-    val viewModel = StartViewModel()
+    val viewModel = koinViewModel<StartViewModel>()
     val uiState by viewModel.uiState.collectAsState()
     var isExpanded by remember { mutableStateOf(false) }
     Scaffold(
@@ -58,14 +60,14 @@ fun StartScreen(onNextClick: (String) -> Unit = {}) {
                     viewModel.countries().forEach { (name, flag) ->
                         DropdownMenuItem(
                             onClick = {
-                                viewModel.updateCountry(name)
+                                viewModel.selectCountry(name)
                                 isExpanded = false
                             },
                             text = { Text(name) },
                             trailingIcon = {
                                 Image(
                                     painter = painterResource(flag),
-                                    contentDescription = "$flag flag",
+                                    contentDescription = "flag",
                                     modifier = Modifier.size(50.dp).padding(end = 10.dp)
                                 )
                             })
@@ -79,8 +81,9 @@ fun StartScreen(onNextClick: (String) -> Unit = {}) {
 
 
             Button(onClick = { onNextClick(uiState.currentCountry.name) }) {
-                Text("${stringResource(Res.string.select_location)} ${uiState.currentCountry.name}")
+                Text("${stringResource(Res.string.go_to)} ${uiState.currentCountry.name}")
             }
+            Text(text = viewModel.injectedString)
         }
     }
 }
