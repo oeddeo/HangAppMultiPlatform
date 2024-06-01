@@ -22,7 +22,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import me.sample.library.resources.Res
+import me.sample.library.resources.select_location
+import me.sample.library.resources.start_screen
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import viewModels.StartViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +39,7 @@ fun StartScreen(onNextClick: (String) -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Start Screen") },
+                title = { Text(stringResource(Res.string.start_screen)) },
                 navigationIcon = {}
             )
         }
@@ -70,12 +74,12 @@ fun StartScreen(onNextClick: (String) -> Unit = {}) {
             }
             Button(modifier = Modifier.padding(start = 20.dp, top = 10.dp),
                 onClick = { isExpanded = !isExpanded }) {
-                Text("Select Location")
+                Text(stringResource(Res.string.select_location))
             }
 
 
             Button(onClick = { onNextClick(uiState.currentCountry.name) }) {
-                Text("Go to ${uiState.currentCountry.name}")
+                Text("${stringResource(Res.string.select_location)} ${uiState.currentCountry.name}")
             }
         }
     }
