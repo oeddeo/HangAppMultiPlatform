@@ -14,14 +14,14 @@ import me.sample.library.resources.jp
 import me.sample.library.resources.mx
 import me.sample.library.resources.se
 
-class StartViewModel : ViewModel() {
+class StartViewModel(val injectedString: String) : ViewModel() {
 
     private val _uisState = MutableStateFlow(StartState())
     val uiState: StateFlow<StartState> = _uisState.asStateFlow()
 
-    fun updateCountry(selectedCountryName: String) {
-        val newCountry = _uisState.value.currentCountry.copy(name = selectedCountryName)
-        _uisState.value = _uisState.value.copy(currentCountry = newCountry)
+    fun selectCountry(selectedCountryName: String) {
+        val selectedCountry = _uisState.value.currentCountry.copy(name = selectedCountryName)
+        _uisState.value = _uisState.value.copy(currentCountry = selectedCountry)
     }
 
     fun countries() = listOf(

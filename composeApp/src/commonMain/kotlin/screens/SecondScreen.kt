@@ -10,6 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.ExperimentalMaterial3Api
 import components.NavigationIcon
+import me.sample.library.resources.Res
+import me.sample.library.resources.nothing_to_see
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +35,7 @@ fun SecondScreen(
 
         ) {
 
-            Text("Nothing to see")
+            Text(stringResource(Res.string.nothing_to_see))
         }
     }
 }
