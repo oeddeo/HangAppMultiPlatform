@@ -56,6 +56,10 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.material3.android)
+
+            //Koin
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -67,6 +71,11 @@ kotlin {
             implementation(projects.shared)
             implementation(libs.navigation.compose)
             implementation(compose.components.resources)
+            implementation(libs.lifecycle.viewmodel.compose)
+
+            //Koin
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
 
         }
         desktopMain.dependencies {
