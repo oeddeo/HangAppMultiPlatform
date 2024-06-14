@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import screens.SecondScreen
-import screens.StartScreen
+import screens.secondscreen.SecondScreen
+import screens.startscreen.StartScreen
 
 
 @Composable
