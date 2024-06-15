@@ -5,7 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.swing.Swing
 
-fun main() = runBlocking(Dispatchers.Swing) {
+//import kotlinx.coroutines.swing.Swing
+
+fun main() = runBlocking() {
     KoinInitializer().init()
     application {
         Window(
