@@ -63,7 +63,7 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
+        task("testClasses")
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -102,12 +102,13 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.sqlite.driver)
+            implementation(libs.sqldelight.jvm)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.kotlinx.coroutines.core)
         }
         iosMain.dependencies {
             implementation(libs.native.driver)
+            implementation(libs.kotlinx.coroutines.core)
         }
     }
 }
