@@ -1,0 +1,41 @@
+PRAGMA user_version = 2;
+
+CREATE TABLE CountryDto (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    flagName TEXT NOT NULL
+);
+
+CREATE TABLE VisitorDto (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    timeOfVisit TEXT NOT NULL,
+    countryId INTEGER NOT NULL,
+    FOREIGN KEY (countryId) REFERENCES CountryDto(id)
+);
+
+insertCountryDto:
+INSERT INTO CountryDto(name, flagName)
+VALUES (?, ?);
+
+insertVisitorDto:
+INSERT INTO VisitorDto(name, timeOfVisit, countryId)
+VALUES (?, ?, ?);
+
+selectAllCountriesDto:
+SELECT * FROM CountryDto;
+
+selectVisitorsByCountryDto:
+SELECT * FROM VisitorDto WHERE countryId = ?;
+
+deleteAllCountriesDto:
+DELETE FROM CountryDto;
+
+deleteAllVisitorsDto:
+DELETE FROM VisitorDto;
+
+selectLastInsertRowId:
+SELECT last_insert_rowid();
+
+selectCountryByName:
+SELECT * FROM CountryDto WHERE name= ?;

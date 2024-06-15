@@ -9,34 +9,45 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.kotlinxSerialization)
+    
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(project.projectDir.path)
-                    }
-                }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        // Serve sources to debug inside browser
+//                        add(project.projectDir.path)
+//                    }
+//                }
+//            }
+//        }
+//        binaries.executable()
+//    }
+
+
+    androidTarget {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
             }
         }
-        binaries.executable()
     }
-    
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
         }
     }
-    
-    jvm("desktop")
     
     listOf(
         iosX64(),
@@ -46,20 +57,23 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            binaryOption("bundleId", "com.edvin.kmpKtor")
         }
     }
     
     sourceSets {
         val desktopMain by getting
-        
+        task("testClasses")
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.material3.android)
 
             //Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            // SQL Delight
+            implementation(libs.android.driver)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -72,14 +86,29 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(compose.components.resources)
             implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.serialization.kotlinx.json)
 
             //Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
 
+            //SQL Delight
+            implementation(libs.runtime)
+            implementation(libs.sqldelight.coroutines)
+
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.sqldelight.jvm)
+            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.kotlinx.coroutines.core)
+        }
+        iosMain.dependencies {
+            implementation(libs.native.driver)
+            implementation(libs.kotlinx.coroutines.core)
         }
     }
 }
@@ -118,6 +147,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     buildFeatures {
         compose = true
     }
@@ -125,9 +155,7 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
-dependencies {
-    implementation(libs.androidx.material3.android)
-}
+
 
 compose.desktop {
     application {
@@ -137,6 +165,14 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "kmp.project.ktor"
             packageVersion = "1.0.0"
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.kmpktor")
         }
     }
 }

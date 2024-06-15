@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import screens.SecondScreen
-import screens.StartScreen
+import screens.secondscreen.SecondScreen
+import screens.startscreen.StartScreen
 
 
 @Composable
@@ -29,7 +29,7 @@ fun SetupNavGraph(
             arguments = listOf(navArgument("answer") {})
             ) {
             val answer = it.arguments?.getString("answer") ?: ""
-            SecondScreen(navController::popBackStack, answer = answer)
+            SecondScreen({ navController.navigate(Screens.Start.route) }, answer = answer)
         }
 
         }

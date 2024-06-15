@@ -1,4 +1,4 @@
-package data
+package domain.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
