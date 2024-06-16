@@ -28,7 +28,7 @@ fun SetupNavGraph(
             route = "${Screens.Second.route}/{answer}",
             arguments = listOf(navArgument("answer") {})
             ) {
-            val answer = it.arguments?.getString("answer") ?: ""
+            val answer = it.arguments?.getString("answer")?:""
             SecondScreen({ navController.navigate(Screens.Start.route) }, answer = answer)
         }
 
